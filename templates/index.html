@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Whatsapp Chat Analysis - Home
+{% endblock %}
+
+
+{% block main %}
+    <p class="title-centre"> To begin, upload a WhatsApp chat text file</p>
+
+    <div class="center">
+        <form action = "/" method="POST" enctype="multipart/form-data">
+            <label class="button-1" id="upload-label">
+                <input type="file" id="realfileBtn" name="file">
+                <span id="custom-text">Upload file</span>
+            </label>
+            <button type="submit" class="button-1">Submit</button>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        const uploadLabel = document.getElementById("upload-label");
+        const realFileBtn = document.getElementById("realfileBtn");
+        const customTxt = document.getElementById("custom-text");
+        realFileBtn.addEventListener("change", function(){
+            if (realFileBtn.value) {
+                customTxt.innerHTML = realFileBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+            } else {
+                customTxt.innerHTML = "No file selected";
+            }
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <link href="/static/styles.css" rel="stylesheet">
+
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+        {% block head%}
+        {% endblock %}
+        
+        <title>{% block title %}{% endblock %}</title>
+
+    </head>
+    <body>
+        {% block body%}
+        {% endblock %}
+        <nav>
+            <p class="apptitle">Whatsapp Chat Analyser</p>
+            <a href="/">Upload New Chat</a>
+
+        </nav>
+
+        <main>
+            <div id="main">
+                {% block main %}{% endblock %}
+            </div>
+        </main>
+    </body>
+</html>

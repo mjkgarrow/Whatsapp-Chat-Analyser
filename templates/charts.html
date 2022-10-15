@@ -1,0 +1,153 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Whatsapp Chat Analysis - Charts
+{% endblock %}
+
+{% block head %}
+  <!-- Emoji Chart -->
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawEmojiChart);
+
+    function drawEmojiChart() {
+      const emojijson = {{ emoji_count|tojson }}
+      var data = google.visualization.arrayToDataTable(emojijson);
+      var options = {
+        pieSliceText: 'label',
+        chartArea:{width:'100%',height:'90%'},
+        legend: 'none',
+        backgroundColor: {fill:'transparent'},
+        // is3D: true,
+        pieHole: 0.4
+      };
+      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+      chart.draw(data, options);
+    }
+  </script>
+
+  <!-- Author messages Chart -->
+  <script type="text/javascript">
+    google.charts.load('current', {'packages': ['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawAuthorChart);
+
+    function drawAuthorChart() {
+      const authordatajson = {{ authorData|tojson }}
+      var data = google.visualization.arrayToDataTable(authordatajson);
+      var options = {
+        legend: 'none',
+        colors:['#52ab98','#266777'],
+        chartArea: {width: '50%'},
+        hAxis: {title: 'Messages', minValue: 0, gridlines: {color: 'white'}},
+        chartArea:{backgroundColor:'white'}
+      };
+      var chart = new google.visualization.BarChart(document.getElementById('bar_chart'));
+      chart.draw(data, options);
+    }
+  </script>
+
+  <!-- Chat history Chart -->
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawMessageDateChart);
+
+    function drawMessageDateChart() {
+      const datesjson = {{ messages_dates|tojson }}
+      const cleandatesjson = [['Date', 'Messages']];
+      for (let i = 1; i < datesjson.length; i++) {
+        cleandatesjson.push([new Date(datesjson[i][0]), datesjson[i][1]]);
+      }
+      var data = google.visualization.arrayToDataTable(cleandatesjson);
+      var options = {
+        legend: 'none',
+        colors:['#52ab98','#266777'],
+        chartArea:{width:'80%',height:'70%',backgroundColor:'white'},
+        backgroundColor: 'transparent',
+        hAxis: {title: 'Date', gridlines: {color: 'white'}},
+        vAxis: {titles: 'Messages', gridlines: {color: 'white'}},
+        explorer: { 
+            actions: ['dragToZoom', 'rightClickToReset'],
+            axis: 'horizontal',
+            maxZoomIn: .001}
+      };
+      var chart = new google.visualization.AreaChart(document.getElementById('curve_chart'));
+      chart.draw(data, options);
+    }
+  </script>
+
+{% endblock %}
+
+{% block main %}
+  <div class="container">
+    <div class="main">
+        <div class="cards">
+            <div class="card">
+                <div class="card-content">
+                    <div class="number">{{ authorDelta|length }}</div>
+                    <div class="card-name tooltip" >Chat authors
+                      <span class="tooltiptext">{{ authors }}</span>
+                    </div>
+                </div>
+                <div class="icon-box">
+                  <i class="bi bi-person-circle"></i>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <div class="number">{{ nummessages }}</div>
+                    <div class="card-name tooltip">Messages
+                      <span class="tooltiptext">Around {{ word_data[0] }} words per message</span>
+                    </div>
+                </div>
+                <div class="icon-box">
+                  <i class="bi bi-chat-dots-fill"></i>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <div class="number">{{ chatlength }}</div>
+                    <div class="card-name tooltip">Days chatting
+                      <span class="tooltiptext">Around {{ word_data[2] }} messages sent per day</span>
+
+                    </div>
+                </div>
+                <div class="icon-box">
+                  <i class="bi bi-calendar3"></i>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <div class="number">{{ fastestreply[0][0] }}</div>
+                    <div class="card-name tooltip">Fastest replier
+                      <span class="tooltiptext">Replies within {{ fastestreply[0][2] }} minutes, on average</span>
+                    </div>
+                </div>
+                <div class="icon-box">
+                  <i class="bi bi-speedometer"></i>
+                </div>
+            </div>
+        </div>
+        <div class="charts">
+            <div class="chart">
+              <h2>Message history</h2>
+              <div id="curve_chart"></div>
+            </div>
+            <div class="chart doughnut-chart">
+              <h2>Most used emojis</h2>
+                <div id="piechart"></div>
+            </div>
+            <div class="chart">
+              <h2>Messages sent</h2>
+              <div id="bar_chart"></div>
+            </div>
+            <div class="chart tooltip">
+              <h2>Word cloud</h2>
+              <div class="tooltip">
+                <img src="static/wordcloud.png" width="250" height="250">
+                <span class="tooltiptext">Top 3 most common words: {{ commonword }}</span>
+              </div>
+            </div>
+        </div>
+    </div>
+  </div>
+{% endblock %}
