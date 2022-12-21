@@ -1,3 +1,5 @@
 flask_session
 __pycache__
 venv
+static/.DS_Store
+chat.db
