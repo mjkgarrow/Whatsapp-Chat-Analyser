@@ -4,6 +4,7 @@ import os
 import helpers
 import sqlite3
 
+
 # Configure application
 app = Flask(__name__)
 
@@ -20,6 +21,7 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+
 
 # Confirm uploaded file is allowed
 def allowed_file(filename):
@@ -56,14 +58,14 @@ def index():
         # Open uploaded file and read it into a variable
         with open(os.path.join(app.config['STATIC_FOLDER'], filename), 'r') as f:
             raw_chat = f.read().split("\n")
-        
+
         # Parse raw chat
         chat = helpers.parse_chat(raw_chat)
 
         # Populate 'chat' database with message data
         for item in chat:
             db.execute("INSERT INTO chat (date, day, time, author, message, words, emoji) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            (item['date'], item['day'], item['time'], item['author'], item['message'], item['words'], item['emoji']))
+                       (item['date'], item['day'], item['time'], item['author'], item['message'], item['words'], item['emoji']))
         conn.commit()
 
         return redirect("/charts")
@@ -109,7 +111,7 @@ def charts():
     db.execute("SELECT emoji FROM chat WHERE emoji!=''")
     # fetchall() returns a list of tuples
     rows = db.fetchall()
-    # Creat list of tuples of top 20 emoji
+    # Create list of tuples of top 20 emoji
     emoji_count = helpers.emoji_list(rows)
 
     # Messages per day for graphs
@@ -145,12 +147,12 @@ def charts():
     db.execute("SELECT message FROM chat")
     rows = db.fetchall()
     commonword = helpers.wordcloudgen(rows, STATIC_FOLDER)
-    
+
     # Generate list of authors
     authors = ''
     for i in range(1, len(authorData)):
         authors += ' ' + authorData[i][0] + ','
-    
+
     # Generate word data
     db.execute("SELECT AVG(words), SUM(words) FROM chat")
     rows = db.fetchall()
@@ -162,6 +164,20 @@ def charts():
         counter += i[0]
     word_data.append(round(counter/len(rows)))
 
-    return render_template("charts.html", emoji_count=emoji_count, messages_dates=messages_dates, authorData=authorData, 
-    authorDelta=authorsDelta, nummessages=nummessages, chatlength=chatlength, fastestreply=fastestreply, authors=authors[:-1],
-    commonword=commonword, word_data=word_data)
+    return render_template("charts.html",
+                           emoji_count=emoji_count, messages_dates=messages_dates, authorData=authorData,
+                           authorDelta=authorsDelta,
+                           nummessages=nummessages,
+                           chatlength=chatlength,
+                           fastestreply=fastestreply,
+                           authors=authors[:-1],
+                           commonword=commonword,
+                           word_data=word_data)
+
+
+if __name__ == "__main__":
+    os.system("open http://localhost:8080")
+    app.run(debug=True,
+            host="0.0.0.0",
+            port=8080,
+            use_reloader=False)
