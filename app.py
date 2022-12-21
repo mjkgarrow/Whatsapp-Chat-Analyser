@@ -72,25 +72,27 @@ def index():
 
     # If connected using GET then delete the database/chat/wordcloud picture, reset the counter to 0 and request a new file
     else:
+        # Delete all chat files, wordcloud pics and database
+        cloud_pic_path = STATIC_FOLDER + '/wordcloud.png'
+        chat_file = STATIC_FOLDER + '/chat.txt'
+        if os.path.exists(cloud_pic_path):
+            os.remove(cloud_pic_path)
+        if os.path.exists(chat_file):
+            os.remove(chat_file)
+        if os.path.exists(DATABASE_FILE):
+            os.remove(DATABASE_FILE)
+
         # Connect to SQLite database
         conn = sqlite3.connect(DATABASE_FILE)
         db = conn.cursor()
-
-        # Delete data from table
-        db.execute("DELETE FROM chat")
+        db.execute("CREATE TABLE 'chat'('id' INTEGER NOT NULL UNIQUE,'date' TEXT NOT NULL,'day' TEXT NOT NULL,'time' TEXT NOT NULL,'author' TEXT NOT NULL,'message' TEXT NOT NULL,'words' INTEGER NOT NULL,'emoji' TEXT NOT NULL,PRIMARY KEY('id' AUTOINCREMENT))")
+        # # Delete data from table
+        # db.execute("DELETE FROM chat")
         conn.commit()
 
         # Reset id counter in table
-        db.execute("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='chat'")
-        conn.commit()
-
-        # Delete all chat files and wordcloud pics
-        cloudpicpath = STATIC_FOLDER + '/wordcloud.png'
-        chatfile = STATIC_FOLDER + '/chat.txt'
-        if os.path.exists(cloudpicpath):
-            os.remove(cloudpicpath)
-        if os.path.exists(chatfile):
-            os.remove(chatfile)
+        # db.execute("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='chat'")
+        # conn.commit()
 
         return render_template("index.html")
 
