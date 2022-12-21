@@ -5,7 +5,7 @@ import emoji
 import pandas as pd
 from wordcloud import WordCloud
 
-# Inspiration from Mazin Ahmed (mazin[at]mazinahmed.net) - https://github.com/mazen160/whatsapp-chat-parser 
+# Inspiration from Mazin Ahmed (mazin[at]mazinahmed.net) - https://github.com/mazen160/whatsapp-chat-parser
 
 """SET GLOBAL PARAMETERS"""
 # Regular expression search
@@ -19,32 +19,54 @@ REGEX_DATE = """\[[\d/]+, [\d:]+.{3}\]"""
 START_MESSAGE = 'Messages and calls are end-to-end encrypted. No one outside of this chat, not even WhatsApp, can read or listen to them.'
 
 # List of stopwords
-STOPWORDS = ['because', 'their', "you're", 'here', "that'll", 'video omitted', 'we', 
-            '\x0c', 'this', 'whom', 'who', 'yours', 'she', 'from', '^', "won't", 'are',
-            'them', 'image', 'n', 'ours', 'its', 'no', 'before', 'an', 'wouldn', 'above',
-            "shan't", 'k', 'b', 'if', "aren't", '5', 'once', "couldn't", '#', '"', 'doing',
-            ':', '_', 'at', 'down', 'isn', 'L', ']', 'w', ' ', 'own', 'does', 'just',
-            "should've", 'have', 'I', '[', 'mustn', 'J', '=', "she's", 'than', 'K',
-            'mightn', 'video', 'same', 'do', 'can', 'ourselves', 'c', 'H', 'and', 'her',
-            'R', 'when', 'wasn', '&', 'should', 'the', 'Y', '>', 'such', 'haven', 'O', 'M',
-            'nor', "weren't", '!', 'up', 'him', 'won', 'these', '(', '-', 'shan', 'my',
-            'myself', 'being', 'itself', "shouldn't", 'G', 'into', '.', '6', 'too', 'm',
-            '`', "hadn't", 'e', 'g', 'over', '@', "doesn't", 'd', 'what', 'on', 'themselves',
-            "wouldn't", 'not', 'some', 'q', 'been', '/', 'V', 'there', 'y', 'Z', ',', 'each',
-            '$', ')', 'P', 'by', 'has', 'v', "needn't", '\\', 'of', 'now', 'was', 'out', 't',
-            'aren', 'under', '4', 'hasn', 'why', 'about', "hasn't", 'didn', "haven't", "isn't",
-            'l', 'F', 're', 've', 'they', "you'd", 'A', "didn't", 'E', 'yourself', 'j', '<', '~',
-            "you'll", 'he', 'am', 'off', 'more', 'o', 'couldn', 'W', "mustn't", 'f', 'again',
-            'against', 'p', 'with', '*', 'it', 'S', 'omitted', 'T', 'during', '%', 'doesn', 'hadn',
-            "wasn't", 'had', 'you', 'r', '{', 'ain', 'having', 'were', 'C', 'how', 'his', '7', 'Q',
-            "mightn't", 'very', '?', 'few', 'shouldn', 'x', 'D', '\n', "'", "don't", 'himself', 'a',
-            'but', '1', "it's", 'both', 'hers', 'as', 'weren', 'further', 'in', 'll', 'yourselves',
-            'while', '+', ';', 'u', 'below', 'h', '}', 'don', '\x0b', 'other', 'for', '9', '\t',
-            "you've", 'all', 'i', 'after', 'until', 'then', 'is', 'z', 'ma', 'most', 'needn', 's',
-            '3', '2', 'our', 'through', 'be', 'U', '|', 'N', 'where', 'between', 'theirs', 'those',
-            'image omitted', 'which', 'your', 'that', '0', 'X', 'herself', 'to', 'so', 'will', 'B',
-            'only', 'or', '8', 'me', 'any', 'did', '\r']
-
+STOPWORDS = ['because', 'their', "you're", 'here', "that'll", 'video omitted', 'we',
+             '\x0c', 'this', 'whom', 'who', 'yours',
+             'she', 'from', '^', "won't", 'are',
+             'them', 'image', 'n', 'ours', 'its', 
+             'no', 'before', 'an', 'wouldn', 'above',
+             "shan't", 'k', 'b', 'if', "aren't", '5',
+             'once', "couldn't", '#', '"', 'doing',
+             ':', '_', 'at', 'down', 'isn', 'L', ']',
+             'w', ' ', 'own', 'does', 'just',
+             "should've", 'have', 'I', '[', 'mustn',
+             'J', '=', "she's", 'than', 'K',
+             'mightn', 'video', 'same', 'do', 'can',
+             'ourselves', 'c', 'H', 'and', 'her',
+             'R', 'when', 'wasn', '&', 'should', 'the',
+             'Y', '>', 'such', 'haven', 'O', 'M',
+             'nor', "weren't", '!', 'up', 'him',
+             'won', 'these', '(', '-', 'shan', 'my',
+             'myself', 'being', 'itself', "shouldn't",
+             'G', 'into', '.', '6', 'too', 'm',
+             '`', "hadn't", 'e', 'g', 'over', '@',
+             "doesn't", 'd', 'what', 'on', 'themselves',
+             "wouldn't", 'not', 'some', 'q', 'been',
+             '/', 'V', 'there', 'y', 'Z', ',', 'each',
+             '$', ')', 'P', 'by', 'has', 'v', 
+             "needn't", '\\', 'of', 'now', 'was', 'out', 't',
+             'aren', 'under', '4', 'hasn', 'why',
+             'about', "hasn't", 'didn', "haven't", "isn't",
+             'l', 'F', 're', 've', 'they', "you'd",
+             'A', "didn't", 'E', 'yourself', 'j', '<', '~',
+             "you'll", 'he', 'am', 'off', 'more',
+             'o', 'couldn', 'W', "mustn't", 'f', 'again',
+             'against', 'p', 'with', '*', 'it',
+             'S', 'omitted', 'T', 'during', '%', 'doesn', 'hadn',
+             "wasn't", 'had', 'you', 'r', '{',
+             'ain', 'having', 'were', 'C', 'how', 'his', '7', 'Q',
+             "mightn't", 'very', '?', 'few', 
+             'shouldn', 'x', 'D', '\n', "'", "don't", 'himself', 'a',
+             'but', '1', "it's", 'both', 'hers', 
+             'as', 'weren', 'further', 'in', 'll', 'yourselves',
+             'while', '+', ';', 'u', 'below', 'h',
+             '}', 'don', '\x0b', 'other', 'for', '9', '\t',
+             "you've", 'all', 'i', 'after', 'until',
+             'then', 'is', 'z', 'ma', 'most', 'needn', 's',
+             '3', '2', 'our', 'through', 'be', 'U',
+             '|', 'N', 'where', 'between', 'theirs', 'those',
+             'image omitted', 'which', 'your', 'that',
+             '0', 'X', 'herself', 'to', 'so', 'will', 'B',
+             'only', 'or', '8', 'me', 'any', 'did', '\r']
 
 
 # Convert raw chat file into parsed data, returns dictionary of message data
@@ -72,11 +94,13 @@ def parse_chat(chat):
             continue
 
         # Create variables for the dict using regular expression search and selecting the appropriate group
-        message_date = datetime.strptime(regex.search(FULL_MESSAGE, item).group(2), '%d/%m/%Y').strftime('%Y-%m-%d')
+        message_date = datetime.strptime(regex.search(
+            FULL_MESSAGE, item).group(2), '%d/%m/%Y').strftime('%Y-%m-%d')
         message_time = regex.search(FULL_MESSAGE, item).group(3)
         message_author = regex.search(FULL_MESSAGE, item).group(4)
         message_message = regex.search(FULL_MESSAGE, item).group(5)
-        message_day = datetime.strptime(message_date, '%Y-%m-%d').strftime('%A')
+        message_day = datetime.strptime(
+            message_date, '%Y-%m-%d').strftime('%A')
         message_words = len(message_message.split())
 
         # If author has multiple names, condense to first name only
@@ -114,7 +138,7 @@ def emoji_count(message):
     emoji_list = ''
     data = regex.findall(r'\X', message)
     for word in data:
-        if any(char in emoji.UNICODE_EMOJI_ENGLISH for char in word):
+        if any(char in emoji.EMOJI_DATA for char in word):
             emoji_list += word + ','
     return emoji_list
 
@@ -131,7 +155,7 @@ def emoji_list(rows):
     emoji_list2 = []
     for i in emoji_list1:
         emoji_list2 += i
-    
+
     # Count the top 20 emojis into a list of tuples ('emoji','count')
     # the first tuple is empty as the Counter was adding up the empty parts from the emoji list
     counted_emoji = Counter(emoji_list2).most_common(11)
@@ -146,7 +170,8 @@ def messages_per_day(rows):
     end_date = rows[-1][0].replace("/", "")
 
     # Create list of all dates in the YYYY/MM/DD format
-    all_dates = [d.strftime('%Y-%m-%d') for d in pd.date_range(start_date, end_date)]
+    all_dates = [d.strftime('%Y-%m-%d')
+                 for d in pd.date_range(start_date, end_date)]
 
     # Create list of zeroes of equal length to all_dates
     date_counts = [0 for i in range(len(all_dates))]
@@ -190,8 +215,10 @@ def reply_time(rows, name, time):
             # Check if the author is replying to someone else
             if rows[i-1][0] != name:
                 # Create datetime objects for the author's message and the person they are replying to
-                start_datetime = datetime.strptime(str(rows[i-1][1]) + ' ' + str(rows[i-1][2]), '%Y-%m-%d %H:%M:%S').timestamp()
-                end_datetime = datetime.strptime(str(rows[i][1]) + ' ' + str(rows[i][2]), '%Y-%m-%d %H:%M:%S').timestamp()
+                start_datetime = datetime.strptime(
+                    str(rows[i-1][1]) + ' ' + str(rows[i-1][2]), '%Y-%m-%d %H:%M:%S').timestamp()
+                end_datetime = datetime.strptime(
+                    str(rows[i][1]) + ' ' + str(rows[i][2]), '%Y-%m-%d %H:%M:%S').timestamp()
                 time_delta = end_datetime - start_datetime
                 # Only find time between messages based on the given time parameter
                 if time_delta < time and time_delta > 0:
@@ -204,14 +231,14 @@ def reply_time(rows, name, time):
     # Convert the seconds into H:M:S format and then return it as a string (using slices to only take the relavant time period)
     time_string = str(timedelta(seconds=avg_time_delta))
     if time_string[2] == '0':
-        return time_string[3:]  
+        return time_string[3:]
     else:
         return time_string[2:]
 
 
 # Find total length of chat history
 def daterange(rows):
-    enddate= datetime.strptime(rows[0][0], '%Y-%m-%d')
+    enddate = datetime.strptime(rows[0][0], '%Y-%m-%d')
     startdate = datetime.strptime(rows[0][1], '%Y-%m-%d')
     datedelta = str(enddate - startdate)
     return datedelta[:-13]
@@ -223,12 +250,12 @@ def fastestauthor(authorsDelta):
     for author in authorsDelta:
         time = author[1].replace(':', '')
         newDelta.append([author[0], int(time), ''])
-    sorted(newDelta, key = lambda x: x[1])
+    sorted(newDelta, key=lambda x: x[1])
     for i in range(len(newDelta)):
         for author in authorsDelta:
             if newDelta[i][0] == author[0]:
                 newDelta[i][2] = author[1]
-    return sorted(newDelta, key = lambda x: x[1])
+    return sorted(newDelta, key=lambda x: x[1])
 
 
 # Generate wordcloud and find most common word
@@ -245,8 +272,8 @@ def wordcloudgen(rows, folder):
     filtered_text = ' '.join(filtered_word_list)
     # Generate a wordcloud object
     wc = WordCloud(
-        background_color = '#fff',
-        stopwords = STOPWORDS,
+        background_color='#fff',
+        stopwords=STOPWORDS,
         height=1000,
         width=1000,
         max_words=200)
@@ -262,6 +289,6 @@ def wordcloudgen(rows, folder):
         else:
             word_counter[word] = 1
 
-    popular_words = sorted(word_counter, key = word_counter.get, reverse = True)
+    popular_words = sorted(word_counter, key=word_counter.get, reverse=True)
 
     return ', '.join(popular_words[:3]).lower()

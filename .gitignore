@@ -3,3 +3,5 @@ __pycache__
 venv
 static/.DS_Store
 chat.db
+static/chat.txt
+static/upload.png
