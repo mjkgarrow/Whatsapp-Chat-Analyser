@@ -23,7 +23,28 @@ The Whatsapp Chat Analyser is a web app written in Python, Javascript and SQLite
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+---
 
+### Install
+
+Whatsapp Chat Analyser uses Python 3.9, which is installed in a virtual environment when the bash script is run.
+
+To clone the repo:
+```
+git clone git@github.com:mjkgarrow/Whatsapp-Chat-Analyser.git
+```
+
+Run the app:
+
+```
+./quick_run.sh
+```
+
+At the end of your session, remember to quit the Flask process in the terminal with:
+
+```
+ctrl + c
+```
 
 ### Built With
 
@@ -49,28 +70,6 @@ The Whatsapp Chat Analyser is a web app written in Python, Javascript and SQLite
 ## Getting Started
 
 First you need to have a Whatsapp archive file to use. The mobile version of the app has a feature to download an archive of a chat as a .txt file. Save that file so it can be uploaded to the Whatsapp Chat Analyser.
-
-### Prerequisites
-
-The web app includes some external libraries. Download them using pip (you must have pip>=19.3 to install from PyPI):
-* Regex
-  ```sh
-  pip install regex
-  ```
-* Emoji
-  ```sh
-  pip install emoji
-  ```
-* Pandas
-  ```sh
-  pip install pandas
-  ```
-* Wordcloud
-  ```sh
-  pip install wordcloud
-  ```
-
-
 
 <!-- USAGE EXAMPLES -->
 ## Usage
