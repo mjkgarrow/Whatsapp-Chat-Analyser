@@ -5,3 +5,4 @@ static/.DS_Store
 chat.db
 static/chat.txt
 static/upload.png
+.DS_Store

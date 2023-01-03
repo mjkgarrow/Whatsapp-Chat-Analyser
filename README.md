@@ -16,7 +16,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="static/appscreen.png" alt="Logo" width="400" height="336">
+<img src="static/appscreen.png" alt="Logo">
 
 
 The Whatsapp Chat Analyser is a web app written in Python, Javascript and SQLite3 that can upload and parse a Whatsapp archine file in .txt format and create a dashboard of message data including graphs, a wordcloud, pie charts and text-based information.
@@ -37,7 +37,7 @@ git clone git@github.com:mjkgarrow/Whatsapp-Chat-Analyser.git
 Run the app:
 
 ```
-./quick_run.sh
+./quick_setup.sh
 ```
 
 At the end of your session, remember to quit the Flask process in the terminal with:
