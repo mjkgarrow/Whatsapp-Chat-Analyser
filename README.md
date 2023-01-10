@@ -9,6 +9,9 @@
     A simple web app dashboard for analysing Whatsapp messages.
     <br />
     <br />
+    <a href="mjkgarrow.pythonanywhere.com">Use the app</a>
+    <br />
+    <br />
     <a href="https://youtu.be/brCRmVkVp5Q">View Demo</a>
   </p>
 </div>
