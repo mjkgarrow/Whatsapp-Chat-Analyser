@@ -1,6 +1,5 @@
 <div id="top"></div>
 
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -9,7 +8,7 @@
     A simple web app dashboard for analysing Whatsapp messages.
     <br />
     <br />
-    <a href="mjkgarrow.pythonanywhere.com">Use the app</a>
+    <a href="https://mjkgarrow.pythonanywhere.com">Use the app</a>
     <br />
     <br />
     <a href="https://youtu.be/brCRmVkVp5Q">View Demo</a>
@@ -17,10 +16,10 @@
 </div>
 
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 <img src="static/appscreen.png" alt="Logo">
-
 
 The Whatsapp Chat Analyser is a web app written in Python, Javascript and SQLite3 that can upload and parse a Whatsapp archine file in .txt format and create a dashboard of message data including graphs, a wordcloud, pie charts and text-based information.
 
@@ -33,6 +32,7 @@ The Whatsapp Chat Analyser is a web app written in Python, Javascript and SQLite
 Whatsapp Chat Analyser uses Python 3.9, which is installed in a virtual environment when the bash script is run.
 
 To clone the repo:
+
 ```
 git clone git@github.com:mjkgarrow/Whatsapp-Chat-Analyser.git
 ```
@@ -51,30 +51,30 @@ ctrl + c
 
 ### Built With
 
-* [Python](https://www.python.org/)
-* [Flask](https://flask.palletsprojects.com/en/2.1.x/)
-* [Jinja2](https://palletsprojects.com/p/jinja/)
-* [SQLite3](https://www.sqlite.org/index.html)
-* Javascript/HTML
-* [Datetime module](https://docs.python.org/3/library/datetime.html)
-* [os Module](https://docs.python.org/3/library/os.html)
-* [Collections Module](https://docs.python.org/3/library/collections.html)
-* [Regex Module (not re module)](https://pypi.org/project/regex/)
-* [Emoji Module](https://pypi.org/project/emoji/)
-* [Pandas Module](https://pandas.pydata.org/)
-* [Wordcloud Module](https://github.com/amueller/word_cloud)
-* [Google Charts](https://developers.google.com/chart)
+- [Python](https://www.python.org/)
+- [Flask](https://flask.palletsprojects.com/en/2.1.x/)
+- [Jinja2](https://palletsprojects.com/p/jinja/)
+- [SQLite3](https://www.sqlite.org/index.html)
+- Javascript/HTML
+- [Datetime module](https://docs.python.org/3/library/datetime.html)
+- [os Module](https://docs.python.org/3/library/os.html)
+- [Collections Module](https://docs.python.org/3/library/collections.html)
+- [Regex Module (not re module)](https://pypi.org/project/regex/)
+- [Emoji Module](https://pypi.org/project/emoji/)
+- [Pandas Module](https://pandas.pydata.org/)
+- [Wordcloud Module](https://github.com/amueller/word_cloud)
+- [Google Charts](https://developers.google.com/chart)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 First you need to have a Whatsapp archive file to use. The mobile version of the app has a feature to download an archive of a chat as a .txt file. Save that file so it can be uploaded to the Whatsapp Chat Analyser.
 
 <!-- USAGE EXAMPLES -->
+
 ## Usage
 
 <img src="static/upload.png" alt="Logo" width="400" height="288">
@@ -95,8 +95,8 @@ You can click on the 'Upload New Chat' link on the left to go back to the start 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
 <!-- ACKNOWLEDGMENTS -->
+
 ## Acknowledgments
 
 A major source of inspiration for the regular expressions used in the project comes from Mazin Ahmed - https://github.com/mazen160/whatsapp-chat-parser
